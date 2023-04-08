@@ -49,10 +49,10 @@ class Course
         return $total;
     }
 
-    public function process(): void
+    public function start(): void
     {
         if ($this->state !== self::ACCEPTED_STATE) {
-            throw new \Exception("The order can't be processed. State = {$this->state}");
+            throw new \Exception("The order can't be started. State = {$this->state}");
         }
 
         $this->state = self::IN_PROGRESS_STATE;

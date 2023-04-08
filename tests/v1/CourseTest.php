@@ -39,7 +39,7 @@ class CourseTest extends TestCase
         $this->assertSame($expectedTotalAmount, $course->totalTimeInSeconds());
     }
 
-    public function testProcessCourse(): void
+    public function testStartCourse(): void
     {
         $expectedId = 1;
         $expectedState = 'inProgress';
@@ -48,13 +48,13 @@ class CourseTest extends TestCase
         $lesson2 = new Lesson(2, 'Lesson 2', 1000);
 
         $course = new Course(1, [$lesson1, $lesson2]);
-        $course->process();
+        $course->start();
 
         $this->assertSame($expectedId, $course->id());
         $this->assertSame($expectedState, $course->state());
     }
 
-    public static function processExceptionDataProvider(): array
+    public static function startExceptionDataProvider(): array
     {
         $lesson1 = new Lesson(1, 'Lesson 1', 500);
         $lesson2 = new Lesson(2, 'Lesson 2', 1000);
@@ -63,10 +63,10 @@ class CourseTest extends TestCase
         $cancelledCourse->cancel();
 
         $inProgressCourse = new Course(2, [$lesson1, $lesson2]);
-        $inProgressCourse->process();
+        $inProgressCourse->start();
 
         $finishedCourse = new Course(3, [$lesson1, $lesson2]);
-        $finishedCourse->process();
+        $finishedCourse->start();
         $finishedCourse->finish();
 
         return [
@@ -77,12 +77,12 @@ class CourseTest extends TestCase
     }
 
     /**
-     * @dataProvider processExceptionDataProvider
+     * @dataProvider startExceptionDataProvider
      */
-    public function testProcessExceptionCourse(Course $course): void
+    public function testStartExceptionCourse(Course $course): void
     {
         $this->expectException(\Exception::class);
-        $course->process();
+        $course->start();
     }
 
     public function testCancelAcceptedCourse(): void
@@ -109,10 +109,10 @@ class CourseTest extends TestCase
         $cancelledCourse->cancel();
 
         $inProgressCourse = new Course(2, [$lesson1, $lesson2]);
-        $inProgressCourse->process();
+        $inProgressCourse->start();
 
         $finishedCourse = new Course(3, [$lesson1, $lesson2]);
-        $finishedCourse->process();
+        $finishedCourse->start();
         $finishedCourse->finish();
 
         return [
@@ -140,7 +140,7 @@ class CourseTest extends TestCase
         $lesson2 = new Lesson(2, 'Lesson 2', 1000);
 
         $course = new Course(1, [$lesson1, $lesson2]);
-        $course->process();
+        $course->start();
         $course->finish();
 
         $this->assertSame($expectedId, $course->id());
@@ -158,7 +158,7 @@ class CourseTest extends TestCase
         $acceptedCourse = new Course(2, [$lesson1, $lesson2]);
 
         $finishedCourse = new Course(3, [$lesson1, $lesson2]);
-        $finishedCourse->process();
+        $finishedCourse->start();
         $finishedCourse->finish();
 
         return [

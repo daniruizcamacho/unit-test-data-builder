@@ -39,19 +39,17 @@ class CourseTest extends TestCase
         $this->assertSame($expectedTotalAmount, $course->totalTimeInSeconds());
     }
 
-    public function testProcessCourse(): void
+    public function testStartCourse(): void
     {
-        $expectedId = 1;
         $expectedState = 'inProgress';
 
         $course = CourseObjectMother::anAcceptedCourse();
-        $course->process();
+        $course->start();
 
-        $this->assertSame($expectedId, $course->id());
         $this->assertSame($expectedState, $course->state());
     }
 
-    public static function processExceptionDataProvider(): array
+    public static function startExceptionDataProvider(): array
     {
         return [
             'cancelled course' => [CourseObjectMother::aCancelledCourse()],
@@ -61,26 +59,21 @@ class CourseTest extends TestCase
     }
 
     /**
-     * @dataProvider processExceptionDataProvider
+     * @dataProvider startExceptionDataProvider
      */
-    public function testProcessExceptionCourse(Course $course): void
+    public function testStartExceptionCourse(Course $course): void
     {
         $this->expectException(\Exception::class);
-        $course->process();
+        $course->start();
     }
 
     public function testCancelAcceptedCourse(): void
     {
-        $expectedId = 1;
         $expectedState = 'cancelled';
 
-        $product1 = new Lesson(1, 'Lesson 1', 500);
-        $product2 = new Lesson(2, 'Lesson 2', 1000);
-
-        $course = new Course(1, [$product1, $product2]);
+        $course = CourseObjectMother::anAcceptedCourse();
         $course->cancel();
 
-        $this->assertSame($expectedId, $course->id());
         $this->assertSame($expectedState, $course->state());
     }
 
@@ -104,17 +97,11 @@ class CourseTest extends TestCase
 
     public function testFinishCourse(): void
     {
-        $expectedId = 1;
         $expectedState = 'finished';
 
-        $product1 = new Lesson(1, 'Lesson 1', 500);
-        $product2 = new Lesson(2, 'Lesson 2', 1000);
-
-        $course = new Course(1, [$product1, $product2]);
-        $course->process();
+        $course = CourseObjectMother::anInProgressCourse();
         $course->finish();
 
-        $this->assertSame($expectedId, $course->id());
         $this->assertSame($expectedState, $course->state());
     }
 

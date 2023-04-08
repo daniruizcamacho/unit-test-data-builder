@@ -43,7 +43,7 @@ class CourseTest extends TestCase
         $this->assertSame($expectedTotalAmount, $course->totalTimeInSeconds());
     }
 
-    public function testProcessCourse(): void
+    public function testStartCourse(): void
     {
         $expectedId = 1;
         $expectedState = 'inProgress';
@@ -53,13 +53,13 @@ class CourseTest extends TestCase
             ->withState('accepted')
             ->build();
 
-        $course->process();
+        $course->start();
 
         $this->assertSame($expectedId, $course->id());
         $this->assertSame($expectedState, $course->state());
     }
 
-    public static function processExceptionDataProvider(): array
+    public static function startExceptionDataProvider(): array
     {
         $cancelledCourse = CourseDataBuilder::aCourse()
             ->withState('cancelled')
@@ -81,12 +81,12 @@ class CourseTest extends TestCase
     }
 
     /**
-     * @dataProvider processExceptionDataProvider
+     * @dataProvider startExceptionDataProvider
      */
-    public function testProcessExceptionCourse(Course $course): void
+    public function testStartExceptionCourse(Course $course): void
     {
         $this->expectException(\Exception::class);
-        $course->process();
+        $course->start();
     }
 
     public function testCancelAcceptedCourse(): void

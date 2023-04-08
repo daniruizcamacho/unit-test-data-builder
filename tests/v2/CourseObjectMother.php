@@ -23,7 +23,7 @@ class CourseObjectMother
             1,
             [LessonObjectMother::aLesson('name', 500)]
         );
-        $order->process();
+        $order->start();
 
         return $order;
     }
@@ -47,7 +47,7 @@ class CourseObjectMother
             1,
             [LessonObjectMother::aLesson('name', 500)]
         );
-        $order->process();
+        $order->start();
         $order->finish();
 
         return $order;
