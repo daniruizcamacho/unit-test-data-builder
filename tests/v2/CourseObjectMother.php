@@ -19,37 +19,37 @@ class CourseObjectMother
 
     public static function anInProgressCourse(): Course
     {
-        $order = new Course(
+        $course = new Course(
             1,
             [LessonObjectMother::aLesson('name', 500)]
         );
-        $order->start();
+        $course->start();
 
-        return $order;
+        return $course;
     }
 
     public static function aCancelledCourse(): Course
     {
 
-        $order = new Course(
+        $course = new Course(
             1,
             [LessonObjectMother::aLesson('name', 500)]
         );
-        $order->cancel();
+        $course->cancel();
 
-        return $order;
+        return $course;
     }
 
     public static function aFinishedCourse(): Course
     {
 
-        $order = new Course(
+        $course = new Course(
             1,
             [LessonObjectMother::aLesson('name', 500)]
         );
-        $order->start();
-        $order->finish();
+        $course->start();
+        $course->finish();
 
-        return $order;
+        return $course;
     }
 }
